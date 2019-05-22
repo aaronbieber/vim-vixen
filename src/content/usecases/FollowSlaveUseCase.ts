@@ -69,10 +69,9 @@ export default class FollowSlaveUseCase {
 
     if (hint instanceof LinkHint) {
       let url = hint.getLink();
-      // ignore taget='_blank'
-      if (!newTab && hint.getLinkTarget() === '_blank') {
-        hint.click();
-        return;
+      // Open link by background script in order to prevent a popup block
+      if (hint.getLinkTarget() === '_blank') {
+        newTab = true;
       }
       // eslint-disable-next-line no-script-url
       if (!url || url === '#' || url.toLowerCase().startsWith('javascript:')) {
